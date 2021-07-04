@@ -46,7 +46,7 @@ body {
   }
 }
 
-.clock {
+.main {
   height: 100vh;
   width: inherit;
   display: flex;
@@ -66,9 +66,5 @@ body {
 
 .group button {
   border: none;
-  font-size: x-large;
-}
-
-.hide {
-  display: none;
+  font-size: large;
 }
