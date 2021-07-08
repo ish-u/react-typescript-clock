@@ -2,6 +2,11 @@
 
 I used TypeScript with React to create a Simple Clock and Stopwatch.
 
+### _Update_
+
+- The Clock now has about 380 Background Gradients from [uiGradients](https://github.com/Ghosh/uiGradients)
+- Check out [uiGradients](https://uigradients.com/) for **Beautiful Gradient Background**.
+
 ## Demo
 
 [Live Demo](https://typescript-react-clock.netlify.app/)
