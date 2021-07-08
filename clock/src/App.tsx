@@ -1,10 +1,29 @@
 import { useState, useEffect, FC } from "react";
-import { Container, ButtonGroup, Button } from "react-bootstrap";
+import {
+  Container,
+  ButtonGroup,
+  Button,
+  DropdownButton,
+  Row,
+} from "react-bootstrap";
 import "./index.css";
+import { gradients } from "./gradient.js";
+console.log(gradients);
 
 // A Interface for props of Clock and StopWatch Component
 interface DefaultProps {
   show: boolean;
+}
+
+// Interface for BackgroundChanger Components
+interface GradientObject {
+  name: string;
+  colors: Array<string>;
+}
+
+interface Gradients {
+  gradients: Array<GradientObject>;
+  changeBackground(color: string): void;
 }
 
 // Clock Component
@@ -26,7 +45,15 @@ const Clock: FC<DefaultProps> = ({ show }): JSX.Element => {
     <>
       {show && (
         <div>
-          <h1 className="display-1" style={{ fontSize: "8rem" }}>
+          <h1 className="display-4" style={{ fontSize: "3rem" }}>
+            {new Date().toLocaleDateString(undefined, {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </h1>
+          <h1 className="display-1" style={{ fontSize: "9rem" }}>
             {clock}
           </h1>
         </div>
@@ -88,11 +115,59 @@ const StopWatch: FC<DefaultProps> = ({ show }): JSX.Element => {
   );
 };
 
+// Background Color Chnager Component
+const BackgroundChanger: FC<Gradients> = ({
+  gradients,
+  changeBackground,
+}): JSX.Element => {
+  return (
+    <div className="background-changer-button-group">
+      <DropdownButton variant="outline-dark" size="sm" title="">
+        <Container>
+          <Row className="color-menu">
+            {gradients.map((gradient, index) => {
+              const background = `linear-gradient(-225deg ,${gradient.colors.map(
+                (c) => `${c}`
+              )})`;
+              return (
+                <Button
+                  className="col-3 color"
+                  key={index}
+                  onClick={() => {
+                    changeBackground(background);
+                  }}
+                  style={{
+                    background: background,
+                  }}
+                ></Button>
+              );
+            })}
+          </Row>
+        </Container>
+      </DropdownButton>
+    </div>
+  );
+};
+
 function App() {
   const [showClock, setShowClock] = useState<boolean>(true);
+  const [background, setBackground] = useState({
+    background: "linear-gradient(-225deg,#69eacb 0%,#eaccf8 48%,#6654f1 100%)",
+    backgroundSize: "300% 300%",
+  });
+
+  // function to chnage the background gradient
+  const changeBackground = (color: string): void => {
+    console.log(color);
+    setBackground({ background: color, backgroundSize: "400% 400%" });
+  };
 
   return (
-    <Container fluid className="main">
+    <Container fluid className="main" style={background}>
+      <BackgroundChanger
+        gradients={gradients}
+        changeBackground={changeBackground}
+      ></BackgroundChanger>
       <div className="group">
         <ButtonGroup>
           <Button
